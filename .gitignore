@@ -1,2 +1,6 @@
+# ignore Node modules folder
 Frontend/node_modules
 Backend/node_modules
+
+# Ignore Env Folders
+Backend/config/*
