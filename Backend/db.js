@@ -159,16 +159,16 @@ const fetch_related_movies = async (actors, directors) => {
     const graphResult = await session.run(
       `
       OPTIONAL MATCH (a:Actor)-[:ACTED_IN]->(m1:Movie)
-      WHERE a.name IN $actors
+      WHERE toLower(a.name) IN $actors
 
       OPTIONAL MATCH (d:Director)-[:DIRECTED]->(m2:Movie)
-      WHERE d.name IN $directors
+      WHERE toLower(d.name) IN $directors
 
       WITH collect(DISTINCT m1) + collect(DISTINCT m2) AS allMovies
       UNWIND allMovies AS m
 
-      OPTIONAL MATCH (a:Actor)-[:ACTED_IN]->(m)    WHERE a.name IN $actors
-      OPTIONAL MATCH (d:Director)-[:DIRECTED]->(m) WHERE d.name IN $directors
+      OPTIONAL MATCH (a:Actor)-[:ACTED_IN]->(m)    WHERE toLower(a.name) IN $actors
+      OPTIONAL MATCH (d:Director)-[:DIRECTED]->(m) WHERE toLower(d.name) IN $directors
 
       RETURN DISTINCT m,
         CASE
