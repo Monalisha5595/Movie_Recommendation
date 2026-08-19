@@ -12,17 +12,16 @@ const signup_controller = async (req, res) => {
         return res.status(400).json({ message: "Invalid Request Body" });
     }
     const { name, email, password } = req.body;
-    const checkUsername = "select name from movie_users where name = $1";
-    const checkUsernameRes = await db.run_pg_query(checkUsername, [name])
-    if (checkUsername) {
-        return res.status(400).json({message: `Username: ${name} is already taken`});
+    const checkEmailUsername = "select email, name from movie_users where email = $1 or name = $2";
+    const checkEmailUsernameRes = await db.run_pg_query(checkEmailUsername, [email, name])
+    if (checkEmailUsernameRes.length > 0) {
+        return res.status(400).json({message: `username or email is already taken`});
     }
     const hashpassword = await bcrypt.hash(password, 10)
     try {
         const sql = "INSERT INTO movie_users (name,email,password) VALUES($1,$2,$3)";
         const result = await db.run_pg_query(sql, [name, email, hashpassword]);
-        console.log("Data Inserted:", result);
-        res.status(200).json({ message: "Data inserted" })
+        res.status(201).json({ message: "Data inserted" })
     }
     catch (err) {
         res.status(500).json({ message: "Database error", error: err.message })
@@ -38,8 +37,7 @@ const signin_controller = async (req, res) => {
     }
     const { identifier, password } = req.body;
     try {
-        const sql = "SELECT name, email, password FROM movie_users WHERE email=$1 or name=$1";
-
+        const sql = "SELECT name, email, password, is_admin FROM movie_users WHERE email=$1 or name=$1";
         const result = await db.run_pg_query(sql, [identifier]);
 
         if (result.length === 0) {
@@ -55,6 +53,7 @@ const signin_controller = async (req, res) => {
         const token = jwt.sign({
             id: userDetails.id,
             email: userDetails.email,
+            isAdmin: userDetails.is_admin
         }, process.env.APPLICATION_SECRET_KEY, { expiresIn: "1d" })
 
         return res.json({
@@ -64,7 +63,8 @@ const signin_controller = async (req, res) => {
             user: {
                 id: userDetails.id,
                 name: userDetails.name,
-                email: userDetails.email
+                email: userDetails.email,
+                isAdmin: userDetails.is_admin
             }
         })
 
