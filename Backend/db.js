@@ -56,16 +56,6 @@ const close_pg_connection = async () => {
 };
 
 const create_cogno_connection = async () => {
-<<<<<<< Updated upstream
-    console.log(process.env.COGNO_CONNECTION_STRING,process.env.COGNO_USERNAME, process.env.COGNO_PASSWORD)
-    graphDriver = neo4j.driver(
-        process.env.COGNO_CONNECTION_STRING,
-        neo4j.auth.basic(process.env.COGNO_USERNAME, process.env.COGNO_PASSWORD)
-    )
-    await graphDriver.verifyConnectivity();
-    console.log("Cogno DB Connected Successfully");
-}
-=======
   graphDriver = neo4j.driver(process.env.COGNO_CONNECTION_STRING, neo4j.auth.basic(process.env.COGNO_USERNAME, process.env.COGNO_PASSWORD));
   await graphDriver.verifyConnectivity();
   console.log("Cogno DB Connected Successfully");
@@ -204,7 +194,6 @@ const fetch_related_movies = async (actors, directors) => {
     await session.close();
   }
 };
->>>>>>> Stashed changes
 
 const close_cogno_connection = async () => {
   if (graphDriver) {
