@@ -155,6 +155,7 @@ const fetch_from_cogno = async () => {
 
 const fetch_related_movies = async (actors, directors) => {
   const session = graphDriver.session();
+  console.log(actors, directors);
   try {
     const graphResult = await session.run(
       `

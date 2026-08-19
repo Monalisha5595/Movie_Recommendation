@@ -60,8 +60,8 @@ const get_related_movies = async (req, res) => {
       message: "No preferences set. Please update your actor and director interests.",
     });
   }
-  const actors = actor ? actor.split(",").map((a) => a.trim()) : [];
-  const directors = director ? director.split(",").map((d) => d.trim()) : [];
+  const actors = actor ? actor.split(",").map((a) => a.trim().toLowerCase()) : [];
+  const directors = director ? director.split(",").map((d) => d.trim().toLowerCase()) : [];
   const { success, data, message } = await db.fetch_related_movies(actors, directors);
 
   if (!success) {
