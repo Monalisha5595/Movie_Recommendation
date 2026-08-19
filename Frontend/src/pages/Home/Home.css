@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap");
+
+.home-page {
+  background: #0b0b0e;
+  color: #edebe6;
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+}
+
+.home-page__error {
+  padding: 40px 48px;
+  color: #e94f37;
+  font-size: 14px;
+}

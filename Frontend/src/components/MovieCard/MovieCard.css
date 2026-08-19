@@ -1,0 +1,80 @@
+.movie-card {
+  cursor: pointer;
+}
+
+.movie-card__poster-wrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background: #17171b;
+}
+
+.movie-card__poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.movie-card__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 11, 14, 0) 40%, rgba(11, 11, 14, 0.85) 100%);
+  transition: opacity 0.25s ease;
+}
+
+.movie-card__rating {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(11, 11, 14, 0.75);
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #edebe6;
+}
+
+.movie-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease;
+}
+
+.movie-card__play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #edebe6;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-left: 3px;
+}
+
+.movie-card__info {
+  padding-top: 10px;
+}
+
+.movie-card__title {
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 0 0 3px 0;
+  color: #edebe6;
+}
+
+.movie-card__meta {
+  font-size: 12.5px;
+  color: #6e6c67;
+  margin: 0;
+}

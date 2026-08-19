@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap");
+
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #0b0b0e;
+  background-image:
+    radial-gradient(ellipse at top, rgba(233, 79, 55, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, #0b0b0e 0%, #0b0b0e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px;
+  font-family: "Inter", sans-serif;
+  color: #edebe6;
+}
+
+.auth-logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  letter-spacing: 1.5px;
+  color: #edebe6;
+  text-decoration: none;
+  margin-bottom: 40px;
+}
+
+.auth-logo-accent {
+  color: #e94f37;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: #131317;
+  border: 1px solid #1e1e24;
+  border-radius: 12px;
+  padding: 36px 32px;
+}
+
+.auth-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+}
+
+.auth-subtitle {
+  color: #9a9892;
+  font-size: 14px;
+  margin: 0 0 28px 0;
+  line-height: 1.5;
+}
+
+.auth-error {
+  background: rgba(233, 79, 55, 0.12);
+  border: 1px solid rgba(233, 79, 55, 0.35);
+  color: #f28b78;
+  font-size: 13.5px;
+  padding: 11px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.auth-success {
+  background: rgba(76, 175, 106, 0.12);
+  border: 1px solid rgba(76, 175, 106, 0.35);
+  color: #7fd39a;
+  font-size: 13.5px;
+  padding: 11px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-field-icon {
+  position: absolute;
+  left: 14px;
+  color: #6e6c67;
+  pointer-events: none;
+}
+
+.auth-input {
+  width: 100%;
+  background: #1a1a1f;
+  border: 1px solid #2a2a31;
+  border-radius: 7px;
+  padding: 13px 14px 13px 42px;
+  font-size: 14.5px;
+  color: #edebe6;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.auth-input::placeholder {
+  color: #6e6c67;
+}
+
+.auth-input:focus {
+  border-color: #e94f37;
+}
+
+.auth-field-toggle {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #6e6c67;
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+}
+
+.auth-submit-btn {
+  margin-top: 8px;
+  background: #e94f37;
+  border: none;
+  color: #0b0b0e;
+  padding: 14px;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.auth-submit-btn:hover {
+  opacity: 0.92;
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13.5px;
+  color: #9a9892;
+}
+
+.auth-switch-link {
+  color: #e94f37;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,25 @@
+.footer {
+  border-top: 1px solid #1e1e24;
+  padding: 32px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer__logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #edebe6;
+}
+
+.footer__logo-accent {
+  color: #e94f37;
+}
+
+.footer__text {
+  color: #6e6c67;
+  font-size: 13px;
+}

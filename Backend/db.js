@@ -56,6 +56,7 @@ const close_pg_connection = async () => {
 }
 
 const create_cogno_connection = async () => {
+    console.log(process.env.COGNO_CONNECTION_STRING,process.env.COGNO_USERNAME, process.env.COGNO_PASSWORD)
     graphDriver = neo4j.driver(
         process.env.COGNO_CONNECTION_STRING,
         neo4j.auth.basic(process.env.COGNO_USERNAME, process.env.COGNO_PASSWORD)
