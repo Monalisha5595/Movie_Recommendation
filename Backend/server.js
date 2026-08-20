@@ -6,17 +6,27 @@ const dotenv = require('dotenv');
 const authRoute = require('./routes/authRoute')
 const movieRoute = require('./routes/movieRoute')
 const userRoute = require('./routes/userRoute')
+const profileRoute = require('./routes/profileRoute')
+const cors = require("cors");
+
 dotenv.config({ path: './config/.env' })
 
 const PORT = process.env.APPLICATION_PORT || 5001
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your Vite dev server URL
+    credentials: true, // only needed if you're sending cookies/auth headers
+  })
+);
 
 const start_server = async () => {
     // Adding custom API Routes
     app.use('/v1/api', authRoute);
     app.use('/v1/api/movie', movieRoute)
     app.use('/v1/api/user', userRoute)
+    app.use('/v1/api', profileRoute)
     // Creating DB connections
     // Postgres Connection
     await db.create_cogno_connection();

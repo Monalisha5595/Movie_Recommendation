@@ -22,7 +22,8 @@ export default function MovieGrid({ movies, loading, title = "Popular Right Now"
       ) : (
         <div className="movie-grid">
           {movies.map((m) => (
-            <MovieCard key={m.id} movie={m} />
+            // ✅ was key={m.id} — API has no id field, title is unique and stable
+            <MovieCard key={m.title} movie={m} />
           ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, LogOut, Settings } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -56,10 +56,6 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__right">
-        <button className="navbar__icon-btn" aria-label="Search">
-          <Search size={18} strokeWidth={1.75} />
-        </button>
-
         {user ? (
           <div className="navbar__profile" ref={menuRef}>
             <button

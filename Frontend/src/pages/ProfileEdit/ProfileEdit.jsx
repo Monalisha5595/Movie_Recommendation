@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Film, Clapperboard, Tags, ArrowLeft } from "lucide-react";
-import { updateProfile } from "../../services/profileService";
+import { Film, Clapperboard, ArrowLeft } from "lucide-react";
+import { updateProfile, getProfile } from "../../services/profileService";
 import "./ProfileEdit.css";
 
 export default function ProfileEdit() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [form, setForm] = useState({
-    interest: "",
     actor: "",
     director: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -24,11 +24,28 @@ export default function ProfileEdit() {
     }
     const parsed = JSON.parse(storedUser);
     setUser(parsed);
-    setForm({
-      interest: parsed.interest || "",
-      actor: parsed.actor || "",
-      director: parsed.director || "",
-    });
+
+    const fetchProfile = async () => {
+      try {
+        const dbProfile = await getProfile(parsed.email);
+        const merged = { ...parsed, ...dbProfile };
+        localStorage.setItem("user", JSON.stringify(merged));
+        setUser(merged);
+        setForm({
+          actor:    dbProfile.actor    || "",
+          director: dbProfile.director || "",
+        });
+      } catch {
+        setForm({
+          actor:    parsed.actor    || "",
+          director: parsed.director || "",
+        });
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    fetchProfile();
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -42,20 +59,20 @@ export default function ProfileEdit() {
     setLoading(true);
 
     try {
-      // Fields are stored as comma-separated values in the DB.
-      // Normalize input here: trim each item, drop empty ones, rejoin with ", ".
       const normalized = {
-        interest: form.interest.split(",").map((s) => s.trim()).filter(Boolean).join(", "),
-        actor: form.actor.split(",").map((s) => s.trim()).filter(Boolean).join(", "),
+        actor:    form.actor.split(",").map((s) => s.trim()).filter(Boolean).join(", "),
         director: form.director.split(",").map((s) => s.trim()).filter(Boolean).join(", "),
       };
 
-      await updateProfile({ email: user.email, ...normalized });
+      const result = await updateProfile({ email: user.email, ...normalized });
 
-      const updatedUser = { ...user, ...normalized };
+      const updatedUser = { ...user, ...normalized, ...result };
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
-      setForm(normalized);
+      setForm({
+        actor:    updatedUser.actor    || "",
+        director: updatedUser.director || "",
+      });
       setSuccess("Profile updated successfully.");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
@@ -64,7 +81,7 @@ export default function ProfileEdit() {
     }
   };
 
-  if (!user) return null;
+  if (!user || fetching) return null;
 
   const initials = user.name
     ? user.name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase()
@@ -90,23 +107,10 @@ export default function ProfileEdit() {
           Tell us what you love — separate multiple entries with commas.
         </p>
 
-        {error && <div className="profile-error">{error}</div>}
+        {error   && <div className="profile-error">{error}</div>}
         {success && <div className="profile-success">{success}</div>}
 
         <form className="profile-form" onSubmit={handleSubmit}>
-          <label className="profile-label">
-            <Tags size={16} className="profile-label-icon" />
-            Favorite genres / interests
-          </label>
-          <input
-            type="text"
-            name="interest"
-            placeholder="e.g. Sci-Fi, Thriller, Romance"
-            value={form.interest}
-            onChange={handleChange}
-            className="profile-input"
-          />
-
           <label className="profile-label">
             <Film size={16} className="profile-label-icon" />
             Favorite actors
