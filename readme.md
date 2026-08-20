@@ -48,6 +48,21 @@ VITE_BASE_URL=http://localhost:5000/v1/api
 - UPDATE YOUR PROFILE PAGE WITH THE ACTOR AND DIRECTOR YOU LIKE THEN VISIT THE HOMEPAGE FOR FETCHING THE MOVIES WHICH YOUR WOULD LIKE AS YOUR FAVORITE ACTOR OR DIRECTOR ARE THE ONE WORKING IN THE MOVIE
 - WITHOUT LOGIN IT PAGE WILL SHOW ALL THE MOVIES NOT RELATED TO THE ACTOR AND DIRECTOR YOU LIKED
 - MOVIES CAN BE SEARCHED FROM SEARCH BAR
+- YOU CAN ADD NEW MOVIES BY USING BELOW CURL BUT YOU NEED ADMIN ACCESS FOR ADDING MOVIES IN COGNO DB
+- FOR ADMIN ACCESS YOU CAN UPDATE THE COLUMN is_admin TO true
+
+# CURL
+curl --location 'http://localhost:5000/v1/api/movie/create-movie' \
+--header 'auth: EFGH' \
+--header 'Content-Type: application/json' \
+--data '[
+  {
+    "title": "The Dark Knight",
+    "lead_actor": "Christian Bale",
+    "director": "Christopher Nolan",
+    "poster_url": "https://image.tmdb.org/t/p/original/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
+  }
+]'
 
 # TECH STACK USED
 - REACT

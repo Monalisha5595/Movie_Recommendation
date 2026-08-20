@@ -27,7 +27,6 @@ export default function Home() {
         console.log("Fetch movies error:", err.message);
       });
 
-    // if (!token) {
     getAllMovies(token)
       .then((allData) => {
         setAllMovies(allData);
@@ -37,7 +36,6 @@ export default function Home() {
         console.log("Fetch all movies error:", err.message);
         setAllLoading(false);
       });
-    // }
 
     // Fetch related first, then dedupe all movies against it
     if (token) {
