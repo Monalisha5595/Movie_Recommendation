@@ -1,7 +1,5 @@
-const BASE_URL = "http://localhost:5000/v1/api";
-
 export const signupUser = async ({ name, email, password }) => {
-  const res = await fetch(`${BASE_URL}/signup`, {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, email, password }),
@@ -12,7 +10,7 @@ export const signupUser = async ({ name, email, password }) => {
 };
 
 export const signinUser = async ({ email, password }) => {
-  const res = await fetch(`${BASE_URL}/signin`, {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     // backend signin_controller expects "identifier" (email OR username), not "email"

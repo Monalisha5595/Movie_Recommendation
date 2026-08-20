@@ -1,7 +1,7 @@
 import MovieCard from "../MovieCard/MovieCard";
 import "./MovieGrid.css";
 
-export default function MovieGrid({ movies, loading, title = "Popular Right Now" }) {
+export default function MovieGrid({ movies, loading, title = "Popular Right Now", token }) {
   return (
     <main className="movie-grid-section">
       <div className="movie-grid-section__head">
@@ -17,12 +17,13 @@ export default function MovieGrid({ movies, loading, title = "Popular Right Now"
             <div key={i} className="movie-grid__skeleton" />
           ))}
         </div>
+      ) : movies.length === 0 && !token ? (
+        <p className="movie-grid-section__empty">No movies found. Please Login to fetch...</p>
       ) : movies.length === 0 ? (
-        <p className="movie-grid-section__empty">No movies found. Check back soon.</p>
+        <p className="movie-grid-section__empty">No movies found. Please update profile to fetch...</p>
       ) : (
         <div className="movie-grid">
           {movies.map((m) => (
-            // ✅ was key={m.id} — API has no id field, title is unique and stable
             <MovieCard key={m.title} movie={m} />
           ))}
         </div>

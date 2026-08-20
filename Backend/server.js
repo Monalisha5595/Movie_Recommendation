@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const authRoute = require('./routes/authRoute')
 const movieRoute = require('./routes/movieRoute')
 const userRoute = require('./routes/userRoute')
-const profileRoute = require('./routes/profileRoute')
+// const profileRoute = require('./routes/profileRoute')
 const cors = require("cors");
 
 dotenv.config({ path: './config/.env' })

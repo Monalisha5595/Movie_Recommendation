@@ -4,3 +4,4 @@ Backend/node_modules
 
 # Ignore Env Folders
 Backend/config/*
+Frontend/.env

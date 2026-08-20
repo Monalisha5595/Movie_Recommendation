@@ -1,6 +1,5 @@
-export const getAllMovies = async () => {
-    const token = localStorage.getItem("token"); // or wherever you store it
-    const res = await fetch("http://localhost:5000/v1/api/movie/get-all-movies", {
+export const getAllMovies = async (token) => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/movie/get-all-movies`, {
     headers: {
       auth: token,
     },
@@ -10,10 +9,9 @@ export const getAllMovies = async () => {
   return json.data;
 };
 
-export const getRelatedMovies = async () => {
-    const token = localStorage.getItem("token"); // or wherever you store it
-
-  const res = await fetch("http://localhost:5000/v1/api/movie/get-related-movies",{
+export const getRelatedMovies = async (token) => {
+  console.log("ENV: ", import.meta.env.VITE_BASE_URL)
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/movie/get-related-movies`,{
     headers: {
       auth: token,
     },

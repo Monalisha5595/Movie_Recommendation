@@ -1,13 +1,11 @@
-const BASE_URL = "http://localhost:5000/v1/api";
-
 export const updateProfile = async ({ email, actor, director }) => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch(`${BASE_URL}/profile`, {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user/update-profile`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token ? { auth: token } : {}),
     },
     body: JSON.stringify({ email, actor, director }),
   });
@@ -20,11 +18,11 @@ export const updateProfile = async ({ email, actor, director }) => {
 export const getProfile = async (email) => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch(`${BASE_URL}/profile?email=${encodeURIComponent(email)}`, {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user/get-profile`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token ? { auth: token } : {}),
     },
   });
 

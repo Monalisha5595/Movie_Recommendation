@@ -6,9 +6,6 @@ const update_profile_controller = async (req, res) => {
     }
 
     const { actor, director } = req.body;   // interests -> interest
-    if (actor == '' && director == '') {
-        return res.status(400).json({ message: "Please fill all the required details" })
-    }
     const email = req.user_details["email"]
     try {
         const sql = `UPDATE movie_users

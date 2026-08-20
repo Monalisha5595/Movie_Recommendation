@@ -14,21 +14,28 @@ export default function Home() {
   const [allLoading, setAllLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    getMovies()
-      .then((data) => setMovies(data))
-      .catch((err) => {
-        console.log("Fetch movies error:", err.message);
-        setError("Could not load movies. Please try again later.");
-      });
+
+    // if (!token) {
+      getAllMovies(token)
+        .then((allData) => {
+          setAllMovies(allData);
+          setAllLoading(false);
+        })
+        .catch((err) => {
+          console.log("Fetch all movies error:", err.message);
+          setAllLoading(false);
+        });
+    // }
 
     // Fetch related first, then dedupe all movies against it
-    getRelatedMovies()
+    getRelatedMovies(token)
       .then((relatedData) => {
         setRelatedMovies(relatedData);
 
-        return getAllMovies().then((allData) => {
+        return getAllMovies(token).then((allData) => {
           const relatedTitles = new Set(
             relatedData.map((m) => m.title.toLowerCase().trim())
           );
@@ -93,6 +100,7 @@ export default function Home() {
             movies={filteredRelated}
             loading={false}
             title="Related Movies"
+            token={token}
           />
           <MovieGrid
             movies={filteredAll}
