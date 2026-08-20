@@ -68,3 +68,37 @@
   margin-top: 48px;
   font-size: 15px;
 }
+/* Add this to Home.css */
+
+.home-page__banner {
+  width: 100%;
+  padding: 60px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, #1a0505 0%, #2b0a0a 50%, #0d0d0d 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.home-page__banner-title {
+  margin: 0;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.home-page__banner-title::after {
+  content: "";
+}
+
+.home-page__banner-subtitle {
+  margin: 10px 0 0;
+  color: #bbb;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.home-page__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

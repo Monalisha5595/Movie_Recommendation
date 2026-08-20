@@ -18,6 +18,15 @@ export default function Home() {
 
   useEffect(() => {
 
+    // Fetch movies for the Hero banner's featured movie
+    getMovies()
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((err) => {
+        console.log("Fetch movies error:", err.message);
+      });
+
     // if (!token) {
     getAllMovies(token)
       .then((allData) => {
@@ -71,6 +80,7 @@ export default function Home() {
   return (
     <div className="home-page">
       <Navbar />
+
       {featured && <Hero movie={featured} />}
 
       <div className="home-page__search">
