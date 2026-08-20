@@ -19,37 +19,39 @@ export default function Home() {
   useEffect(() => {
 
     // if (!token) {
-      getAllMovies(token)
-        .then((allData) => {
-          setAllMovies(allData);
-          setAllLoading(false);
-        })
-        .catch((err) => {
-          console.log("Fetch all movies error:", err.message);
-          setAllLoading(false);
-        });
+    getAllMovies(token)
+      .then((allData) => {
+        setAllMovies(allData);
+        setAllLoading(false);
+      })
+      .catch((err) => {
+        console.log("Fetch all movies error:", err.message);
+        setAllLoading(false);
+      });
     // }
 
     // Fetch related first, then dedupe all movies against it
-    getRelatedMovies(token)
-      .then((relatedData) => {
-        setRelatedMovies(relatedData);
+    if (token) {
+      getRelatedMovies(token)
+        .then((relatedData) => {
+          setRelatedMovies(relatedData);
 
-        return getAllMovies(token).then((allData) => {
-          const relatedTitles = new Set(
-            relatedData.map((m) => m.title.toLowerCase().trim())
-          );
-          const dedupedAllMovies = allData.filter(
-            (m) => !relatedTitles.has(m.title.toLowerCase().trim())
-          );
-          setAllMovies(dedupedAllMovies);
+          return getAllMovies(token).then((allData) => {
+            const relatedTitles = new Set(
+              relatedData.map((m) => m.title.toLowerCase().trim())
+            );
+            const dedupedAllMovies = allData.filter(
+              (m) => !relatedTitles.has(m.title.toLowerCase().trim())
+            );
+            setAllMovies(dedupedAllMovies);
+            setAllLoading(false);
+          });
+        })
+        .catch((err) => {
+          console.log("Fetch related/all movies error:", err.message);
           setAllLoading(false);
         });
-      })
-      .catch((err) => {
-        console.log("Fetch related/all movies error:", err.message);
-        setAllLoading(false);
-      });
+    }
   }, []);
 
   const featured = movies[0] || null;
