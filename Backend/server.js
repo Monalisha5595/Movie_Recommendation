@@ -26,7 +26,7 @@ const start_server = async () => {
     app.use('/v1/api', authRoute);
     app.use('/v1/api/movie', movieRoute)
     app.use('/v1/api/user', userRoute)
-    app.use('/v1/api', profileRoute)
+    // app.use('/v1/api', profileRoute)
     // Creating DB connections
     // Postgres Connection
     await db.create_cogno_connection();

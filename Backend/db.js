@@ -155,28 +155,19 @@ const fetch_from_cogno = async () => {
 
 const fetch_related_movies = async (actors, directors) => {
   const session = graphDriver.session();
-  console.log(actors, directors);
   try {
     const graphResult = await session.run(
       `
-      OPTIONAL MATCH (a:Actor)-[:ACTED_IN]->(m1:Movie)
+      MATCH (a:Actor)-[:ACTED_IN]->(m:Movie)
       WHERE toLower(a.name) IN $actors
+      RETURN DISTINCT m, "Matches your favourite actor: " + a.name AS reason
 
-      OPTIONAL MATCH (d:Director)-[:DIRECTED]->(m2:Movie)
+      UNION
+
+      MATCH (d:Director)-[:DIRECTED]->(m:Movie)
       WHERE toLower(d.name) IN $directors
+      RETURN DISTINCT m, "Matches your favourite director: " + d.name AS reason
 
-      WITH collect(DISTINCT m1) + collect(DISTINCT m2) AS allMovies
-      UNWIND allMovies AS m
-
-      OPTIONAL MATCH (a:Actor)-[:ACTED_IN]->(m)    WHERE toLower(a.name) IN $actors
-      OPTIONAL MATCH (d:Director)-[:DIRECTED]->(m) WHERE toLower(d.name) IN $directors
-
-      RETURN DISTINCT m,
-        CASE
-          WHEN a IS NOT NULL AND d IS NOT NULL THEN "Matches actor & director: " + a.name + " / " + d.name
-          WHEN a IS NOT NULL                   THEN "Matches your favourite actor: "    + a.name
-          ELSE                                      "Matches your favourite director: " + d.name
-        END AS reason
       ORDER BY m.title ASC
       `,
       { actors, directors },

@@ -1,35 +1,21 @@
 const db = require("../db");
 
-const profile_controller = async (req, res) => {
+const update_profile_controller = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({ message: "Please Send Correct request body to continue" })
     }
 
-    const { actor, interest, director } = req.body;   // interests -> interest
-    if (actor == '' && interest == '' && director == '') {
+    const { actor, director } = req.body;   // interests -> interest
+    if (actor == '' && director == '') {
         return res.status(400).json({ message: "Please fill all the required details" })
     }
     const email = req.user_details["email"]
     try {
-        const sql = ` UPDATE movie_users 
-                    SET interest = CASE 
-                            WHEN interest IS NULL OR interest = '' THEN $1
-                            WHEN $1 = ANY(string_to_array(interest, ',')) THEN interest 
-                            ELSE interest || ',' || $1 
-                        END,
-                        actor = CASE 
-                            WHEN actor IS NULL OR actor = '' THEN $2
-                            WHEN $2 = ANY(string_to_array(actor, ',')) THEN actor 
-                            ELSE actor || ',' || $2 
-                        END,
-                        director = CASE 
-                            WHEN director IS NULL OR director = '' THEN $3
-                            WHEN $3 = ANY(string_to_array(director, ',')) THEN director 
-                            ELSE director || ',' || $3 
-                        END
-                    WHERE email = $4 
-                    RETURNING *`;
-        const result = await db.run_pg_query(sql, [interest, actor, director, email]);   // order fixed
+        const sql = `UPDATE movie_users
+                    SET actor = $1, director = $2
+                    WHERE email = $3
+                    RETURNING email, actor, director`;
+        const result = await db.run_pg_query(sql, [actor, director, email]);   // order fixed
         if (result.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -40,4 +26,35 @@ const profile_controller = async (req, res) => {
     }
 };
 
-module.exports = profile_controller;
+const get_profile_controller = async (req, res) => {
+    const { email } = req.user_details;
+
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+    }
+
+    try {
+        const rows = await db.run_pg_query(
+            `SELECT email, actor, director
+       FROM movie_users
+       WHERE email = $1`,
+            [email]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const user = rows[0];
+        res.status(200).json({
+            // email: user.email,
+            actor: user.actor || "",
+            director: user.director || "",
+        });
+    } catch (err) {
+        console.error("GET /profile error:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports = { update_profile_controller, get_profile_controller };
